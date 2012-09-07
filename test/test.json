@@ -1,0 +1,12 @@
+{
+  "gender":"male",
+  "name":"Philipp",
+  "age":36.7,
+  "type":"person",
+  "friends":[
+    { "name":"Reinhold" },
+    { "name":"Michi" },
+    { "name":"Markus" },
+    { "name":"Stefan" }
+  ]
+}

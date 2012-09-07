@@ -1,0 +1,12 @@
+{
+  "name":"jstpl",
+  "version":"0.1.0",
+  "description":"Amazingly fast and flexible JS Templating",
+  "main":"./lib/jstemplate.js",
+  "bin":{
+    "jstemplate":"./lib/compile.js"
+  },
+  "dependencies":{
+    "domain-async":"*"
+  }
+}
