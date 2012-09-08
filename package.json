@@ -9,5 +9,9 @@
   },
   "dependencies":{
     "argv":"*"
+  },
+  "repository":{
+    "type":"git",
+    "url":"https://github.com/phidelta/pistachio.git"
   }
 }
