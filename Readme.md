@@ -12,7 +12,7 @@ I think lamdas are a way "to shoot yourself in the foot with a crossbow". What I
 
 ## So what is pistachio?
 
-Pistachio is very similar to mustache in terms of syntax. In fact most any mustache template can be used as is with pistachio. Unless it contains lambdas you are good to go. Pistachio compiles that template into a plain JavaScript function that you can call in pretty much any JavaScript engine. So you can use the compiled template with NodeJS or in the browser. Heck you could even use the same template in both the browser and in your node server.
+Basically you can think of pistachio as mustache on JavaScript steroids. Pistachio is very similar to mustache in terms of syntax. In fact most any mustache template can be used as is with pistachio. Unless it contains lambdas you are good to go. Pistachio compiles that template into a plain JavaScript function that you can call in pretty much any JavaScript engine. So you can use the compiled template with NodeJS or in the browser. Heck you could even use the same template in both the browser and in your node server.
 
 The first thing the compiler does is replace all mustache tags with their pistachio equivalents before parsing. Then a parse tree is built that is basically a list of JavaScript expressions. That is then compiled into a single JavaScript function. This function is already pretty minified. If you want to reduce it even more and also remove anything that is not used in your template, then just run it through the Google Closure Compiler.
 
@@ -95,6 +95,10 @@ If the expression yields a *function* it is called with the arguments *this*, *r
 
 Partials are basically templates included from elsewhere into the template at a specific point. The pistachio compiler will load partials from the file named relative to the current template file (or cwd if using stdin)
 
+### Mustache Lambdas
+
+There is limited mustache lambda support. Since the template is fully compiled before ever being rendered, lamdas have to be declared at compiletime. If you pass the compiler the name of your lambda with the --lamda option, that mustache section will be treated as a mustache lambda if the data is actually a function. If the data is not a function an empty string is inserted instead of the section.
+
 ## Compiler
 
 The package comes with a compiler. You can invoke it with:
@@ -104,11 +108,12 @@ The package comes with a compiler. You can invoke it with:
 The options available are:
 
   * *--shaved* Do not interpret mustache tags. Just ignore them.
-  * *--out &lt;filename>* The template is written to this file instead of *stdout*
+  * *--lambda=&lt;name>* These mustache sections are lambdas.
+  * *--out=&lt;filename>* The template is written to this file instead of *stdout*
   * *--amd* wrap the result in an amd module *define* (Not available with *--common*)
   * *--common* make the result a valid CommonJS module (`module.exports=(function() {})`) (Not available with *--amd*)
-  * *--prepend &lt;string>* prepend the result with the string (Not available with *--amd* or *--common*)
-  * *--append &lt;string>* append the string to the end of the result (Not available with *--amd* or *--common*)
+  * *--prepend=&lt;string>* prepend the result with the string (Not available with *--amd* or *--common*)
+  * *--append=&lt;string>* append the string to the end of the result (Not available with *--amd* or *--common*)
 
 ## License (MIT)
 
