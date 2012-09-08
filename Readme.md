@@ -108,7 +108,7 @@ The package comes with a compiler. You can invoke it with:
 The options available are:
 
   * *--shaved* Do not interpret mustache tags. Just ignore them.
-  * *--lambda=&lt;name>* These mustache sections are lambdas.
+  * *--lambda=&lt;name>* These mustache sections are lambdas (this option can be passed multiple times).
   * *--out=&lt;filename>* The template is written to this file instead of *stdout*
   * *--amd* wrap the result in an amd module *define* (Not available with *--common*)
   * *--common* make the result a valid CommonJS module (`module.exports=(function() {})`) (Not available with *--amd*)
