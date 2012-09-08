@@ -91,7 +91,7 @@ If the expression yields a *function* it is called with the arguments *this*, *r
 
 ### Partials
 
-[[> name ]]  (Mustache {{>name}} is synonymous)
+[[> name ]]  Mustache {{>name}} is synonymous
 
 Partials are basically templates included from elsewhere into the template at a specific point. The pistachio compiler will load partials from the file named relative to the current template file (or cwd if using stdin)
 
