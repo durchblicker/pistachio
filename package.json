@@ -1,12 +1,14 @@
 {
-  "name":"jstpl",
+  "name":"pistachio",
   "version":"0.1.0",
   "description":"Amazingly fast and flexible JS Templating",
-  "main":"./lib/jstemplate.js",
+  "main":"./lib/pistachio.js",
+  "author":{ "name":"Philipp Dunkel", "email":"phidelta@phideltacity.net" },
   "bin":{
-    "jstemplate":"./lib/compile.js"
+    "pistachio":"./lib/compile.js"
   },
   "dependencies":{
-    "domain-async":"*"
+    "domain-async":"*",
+    "argv":"*"
   }
 }
