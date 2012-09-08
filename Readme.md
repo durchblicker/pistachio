@@ -1,6 +1,6 @@
 # Pistachio
 
-Pistachio is a pure JavaScript templating system that whose compiled templates can be used both on the server as well an in the browser. It was inspired by my personal search for a good templating system. I did find an abundance yet nothing that suited me. The closest to my liking was mustache, but it has some short commings, that made it unsuitable for me. I had to be nuts to create yet another templating system. Since my favorite nut is the pistachio, that became the name of the project.
+Pistachio is a pure JavaScript templating system whose compiled templates can be used both on the server as well an in the browser. It was inspired by my personal search for a good templating system. I did find an abundance yet nothing that suited me. The closest to my liking was mustache, but it has some short commings, that made it unsuitable for me. I had to be nuts to create yet another templating system. Since my favorite nut is the pistachio, that became the name of the project.
 
 ## Short Commings of Mustache
 
@@ -107,7 +107,7 @@ The options available are:
   * *--out &lt;filename>* The template is written to this file instead of *stdout*
   * *--amd* wrap the result in an amd module *define* (Not available with *--common*)
   * *--common* make the result a valid CommonJS module (`module.exports=(function() {})`) (Not available with *--amd*)
-  * *--prefix &lt;string>* prefix the result with the string (Not available with *--amd* or *--common*)
+  * *--prepend &lt;string>* prepend the result with the string (Not available with *--amd* or *--common*)
   * *--append &lt;string>* append the string to the end of the result (Not available with *--amd* or *--common*)
 
 ## License (MIT)

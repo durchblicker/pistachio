@@ -8,7 +8,6 @@
     "pistachio":"./lib/compile.js"
   },
   "dependencies":{
-    "domain-async":"*",
     "argv":"*"
   }
 }
