@@ -1,3 +1,7 @@
+/*
+** This is the result of compiling simple.tpl except that it is pretty printed
+*/
+
 (function (data) {
   function each(a, f) {
     var i, m = [];
@@ -21,13 +25,13 @@
         data = this;
         parent = grandparent;
       }
-      if (!Array.isArray(data) data = [data];
+      if (!Array.isArray(data)) data = [data];
       if (!data.length) return "";
       return each(data, function (data) {
         (function (root, parent) {
           return 'simple.tpl\n\n* ' + (esc(this['name'])) + '\n* ' + (esc(this['age'])) + '\n* ' + (esc(this['company'])) + '\n* ' + (this['company']) + '\n'
         }.call(data, root, parent))
       }).join("");
-      }.call(this, root, parent))
-    }.call(data, data, data))
-  })
+    }.call(this, root, parent))
+  }.call(data, data, data))
+})
