@@ -1,5 +1,7 @@
 # Pistachio Template Usage
 
+> ***In order to use a pistachio template you have to compile it first. When this documentation speaks of a template, it refers to the compiled state of the template.***
+
 ## Plain JavaScript
 
 The compiled templates are plain JavaScript function expressions. You can load and use them in multiple ways. Either you copy & paste them into your code directly, or you ask the compiler to create an AMD or CommonJS module for you. Alternatively you can load them from a file and eval the contents.
@@ -34,7 +36,30 @@ In addition to the generic methods above there is a jQuery Plugin. You can ask t
 
     pistachio --jquery --out /path/to/the/place/where/you/want/the/file/pistachio.js
 
-Of course you can also render the jQuery plugin as an AMD or CommonJS module. Alternatively you can simply use the *jquery.js* in this directory. 
+Of course you can also render the jQuery plugin as an AMD or CommonJS module. Alternatively you can simply use the *jquery.js* in this directory.
+
+Once the plugin is included you can use it via:
+
+    $pistachio(template-url, data).done(function(html) {
+      ...
+    });
+    $pistachio(template-text, data).done(function(html) {
+      ...
+    });
+    $pistachio(template-function, data)..done(function(html) {
+      ...
+    });
+
+if you simply want a template object that you want to reuse, then don't pass in *data*
+
+    var template = $pistachio(template-url).done(function(html) {
+      ...
+    }).ready(function() {
+      // Now your template is ready
+      template.render(data); // Will call your done handler (or fail handler) for every time you call render
+    });
+
+of course this also works with a template text or or a template function and not just a URL.
 
 ## Node.JS
 
