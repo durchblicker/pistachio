@@ -117,6 +117,8 @@ The options available are:
   * *--jquery* output the jQuery Stub instead of compiling (No template-file needed!)
   * *--render=data-file* use the template-file to render the *data-file* which needs to be JSON. (template may be compiled or uncompiled)
 
+> **Tip:** Run the compiled template through the Google Closure Compiler to get a smaller file-size as well as speed improvements.
+
 ## Using the Templates
 
 The compiled templates are plain JavaScript function that take the data as an argument and return the rendered text. Aisde from that there are client libraries included here that make these templates easy to use with:
