@@ -1,0 +1,4 @@
+{
+  "cmd": ["pistachio", "--out=$file.pistachio", "$file"],
+  "selector":"text.html.basic"
+}

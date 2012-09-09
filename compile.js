@@ -4,7 +4,7 @@
 ** © 2012 by YOUSURE Tarifvergleich GmbH. Licensed under MIT License
 */
 
-var debug = true;
+var debug = false;
 
 var argv=require( 'argv' );
 var fs=require('fs');
@@ -76,7 +76,7 @@ function parseFile(file, opts) {
   var tpl, base = opts.file;
   file = base ? path.resolve(path.dirname(base), file) : path.resolve(file);
   try {
-    tpl = fs.readFileSync(file, 'utf-8');  
+    tpl = fs.readFileSync(file, 'utf-8');
   } catch(ex) {
     throw new Error('Could not open file: '+file);
   }
