@@ -18,12 +18,16 @@ The first thing the compiler does is replace all mustache tags with their pistac
 
 ## Syntax
 
+The syntax is basically mustache. There are a few additions, that make pistachio much more powerful. These are all triggered by beginning a mustache tag with {{@ or {{{@.
+
+The only syntax element that is currently not supported is ***{{=**XX XX**=}}*** to change the delimiters. However this is planned for the near future.
+
 ### Utility Functions
 
 There are two utility function available in expressions (and section expressions).
 
  * *esc(text)* - converts the argument to a string and does HTML escaping
- * *each(array, function) - is a cross browser capable version of *Array.prototype.map*
+ * *each(array, function)* - is a cross browser capable version of *Array.prototype.map*
 
 ### Variables
 
@@ -36,68 +40,74 @@ There are several variables available in expressions (and section expressions).
 
 ### Expressions
 
-  [[ expression ]]
+  {{@ expression }}
 
-Expressions are just that. They are any valid JavaScript expression. The data that is supposed to be renderd is available in the *this* variable. In addition you have the following variables available:
+Expressions are just that. They are any valid JavaScript expression. The data that is supposed to be renderd is available in the *this* variable.
 
-
-
-The mustache variable {{name}} will translate to [[ esc(this['name']) ]] while {{{name}}} will map to [[ this['name'] ]]
+The mustache variable {{name}} will translate to {{@ esc(this['name']) }} while {{{name}}} will map to {{@ this['name'] }}
 
 **Example**
 
 *Template*
 
-    Hallo I am your [[ this.name ]] version [[ this.version ]] rendering engine!
+    Hallo I am your {{@ this.name }} version {{@ this.version }} rendering engine!
 
 *Data*
 
     { "name":"pistachio", "version":"0.1.0" }
 
-As you can see, this is where your data is.
+As you can see, this is where your data is. The use of javascript expressions is quite powerful; remember even a function can be an expression ;)
 
 ### Sections
 
-  [[[name expression ]]]section-content[[[name]]]
+  {{{@ name expression }}}section-content{{{@ name }}}
 
 Sections are pieces of the template that can contain expressions and other sections. Your entire template is nothing more than a section. A section has a name. While a name is mandatory it is not used for anything other than to make sure that the opening and closing tags of the section match.
 
 The expression that follows the name is taken as the *this* for all expressions and sections within this section.
 
-The mustache section {{#name}}content{{/name}} wil map to [[[name this['name'] ]]]content[[[name]]]
-The mustache section {{^name}}content{{/name}} wil map to [[[name !this['name'] ]]]content[[[name]]]
+The mustache section {{#name}}content{{/name}} wil map to {{{@ name this['name'] }}}content{{{@ name }}}
+The mustache section {{^name}}content{{/name}} wil map to {{{@ name !this['name'] }}}content{{{@ name }}}
 
-The section will be rendered 0 or more times depending on the value it results in:
+If lambdas are enabled for that section name by either specifying --lamda=name or --lambdas, the mapping is slightly different:
 
-The template is not rendered if:
+    {{#name}}content{{/name}}
+
+maps to
+
+    {{@ ("function" !== typeof this[name])?"":(this[name](content)) }}{{{@name ("function" === typeof this[name])?"":this[name] }}}content{{{@name}}}
+
+which is basically 2 sections. So the content of that section is present twice.
+
+### Rendering Rules
+
+The rendering rules are pretty much the same as for mustache. There may be minor differences (functions vs. lambdas) so here is the complete rule-set.
+
+**The template is not rendered if:**
 
   * The expression yields *null*
   * The expression yields *undefined*
   * The expression yields *boolean false*
   * The expressuin yields an *array* with length 0
 
-The template is rendered **once** if:
+**The template is rendered *once* if:**
 
   * The expressions yields a *number*
   * The expression yields a *string* (even if it yields an empty string)
   * The expression yields a non *null* *object* (Except if the object is an Array)
   * The expression yields a *boolean true* except that the *this* and *parent* variables are not changed
 
-The template is rendered **more than once** if:
+**The template is rendered *more than once* if:**
 
   * The expression yields an *array* with a length > 0 (once for each element)
 
 If the expression yields a *function* it is called with the arguments *this*, *root*, *parent*. Then the above rules are plied to the result of the function.
 
-### Partials
-
-[[> name ]]  Mustache {{>name}} is synonymous
-
-Partials are basically templates included from elsewhere into the template at a specific point. The pistachio compiler will load partials from the file named relative to the current template file (or cwd if using stdin)
-
 ### Mustache Lambdas
 
-There is limited mustache lambda support. Since the template is fully compiled before ever being rendered, lamdas have to be declared at compiletime. If you pass the compiler the name of your lambda with the --lamda option, that mustache section will be treated as a mustache lambda if the data is actually a function. If the data is not a function an empty string is inserted instead of the section.
+There is limited mustache lambda support. Since the template is fully compiled before ever being rendered, lamdas have to be declared at compiletime. If you pass the compiler the name of your lambda with the --lamda option, that mustache section will be treated as a mustache lambda if the data is actually a function. If the data is not a function the section is handled normally. If you pass the compiler the ---lambdas flag, then all sections have lambdas enabled.
+
+Lambdas make the generated templates significantly larger. So unless you really need them, you should probably stay away from them. After all, the expressions available in pistachio are much more powerful anyhow.
 
 ## Compiler
 
@@ -107,8 +117,8 @@ The package comes with a compiler. You can invoke it with:
 
 The options available are:
 
-  * *--shaved* Do not interpret mustache tags. Just ignore them.
-  * *--lambda=&lt;name>* These mustache sections are lambdas (this option can be passed multiple times).
+  * *--lambda=&lt;name>* These mustache sections can be lambdas (this option can be passed multiple times).
+  * *--lambdas* All mustache sections can be lambdas (This will significantly increase the size of the resulting template)
   * *--out=&lt;filename>* The template is written to this file instead of *stdout*
   * *--amd* wrap the result in an amd module *define* (Not available with *--common*)
   * *--common* make the result a valid CommonJS module (`module.exports=(function() {})`) (Not available with *--amd*)

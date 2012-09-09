@@ -14,6 +14,7 @@ var pistachio=require('./index.js');
 var args = argv.info('Pistachio Template Compiler').version('0.1.0').option([
   { name:'shaved', short:'s', type:'boolean', description:'Do not interpret mustache tags. Just ignore them.' },
   { name:'lambda', type:'list,string', description:'These mustache sections are lambdas.' },
+  { name:'lambdas', type:'boolean', description:'All mustache sections can be lambdas.' },
   { name:'out', short:'o', type:'path', description:'The template is written to this file instead of STDOUT' },
   { name:'amd', type:'boolean', description:'wrap the result in an amd module define() (Not available with --common)' },
   { name:'common', type:'boolean', description:'make the result a valid CommonJS module (Not available with --amd)' },
