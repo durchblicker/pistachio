@@ -9,7 +9,7 @@ var debug = false;
 var argv=require( 'argv' );
 var fs=require('fs');
 var path=require('path');
-var pistachio=require('./lib/pistachio');
+var pistachio=require('./index.js');
 
 var args = argv.info('Pistachio Template Compiler').version('0.1.0').option([
   { name:'shaved', short:'s', type:'boolean', description:'Do not interpret mustache tags. Just ignore them.' },
