@@ -115,6 +115,16 @@ The options available are:
   * *--prepend=&lt;string>* prepend the result with the string (Not available with *--amd* or *--common*)
   * *--append=&lt;string>* append the string to the end of the result (Not available with *--amd* or *--common*)
 
+## Using the Templates
+
+The compiled templates are plain JavaScript function that take the data as an argument and return the rendered text. Aisde from that there are client libraries included here that make these templates easy to use with:
+
+ * jQuery in the browser
+ * directly in Node.JS
+ * with Express (using render)
+
+For more Information there is [separate documentation](./clients/Readme.md)
+
 ## License (MIT)
 
 Copyright (C) 2012 YOUSURE Tarifvergleich GmbH
