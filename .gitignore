@@ -2,3 +2,4 @@ node_modules/
 lib/closure-compiler.jar
 *.sublime-project
 *.sublime-workspace
+*.pistachio
