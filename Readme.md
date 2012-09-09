@@ -114,6 +114,8 @@ The options available are:
   * *--common* make the result a valid CommonJS module (`module.exports=(function() {})`) (Not available with *--amd*)
   * *--prepend=&lt;string>* prepend the result with the string (Not available with *--amd* or *--common*)
   * *--append=&lt;string>* append the string to the end of the result (Not available with *--amd* or *--common*)
+  * *--jquery* output the jQuery Stub instead of compiling (No template-file needed!)
+  * *--render=data-file* use the template-file to render the *data-file* which needs to be JSON. (template may be compiled or uncompiled)
 
 ## Using the Templates
 

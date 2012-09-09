@@ -19,7 +19,8 @@ var args = argv.info('Pistachio Template Compiler').version('0.1.0').option([
   { name:'common', type:'boolean', description:'make the result a valid CommonJS module (Not available with --amd)' },
   { name:'prepend', type:'string', description:'prepend the result with the string (Not available with --amd or --common)' },
   { name:'append', type:'string', description:'append the string to the end of the result (Not available with --amd or --common)' },
-  { name:'jquery', type:'boolean', description:'output the jQuery client script instead of compiling a template.'}
+  { name:'jquery', type:'boolean', description:'output the jQuery client script instead of compiling a template.'},
+  { name:'render', type:'path', description:'output the rendered template with data in this file'}
 ]).run();
 
 if (args.options.jquery && args.targets.length) {
@@ -56,6 +57,34 @@ var result;
 if (args.options.jquery) {
   if (args.options.common) args.options.prepend+='$["pistachio"];\n\n';
   result = args.options.prepend + fs.readFileSync(path.join(__dirname, 'clients', 'jquery.js'), 'utf-8') + args.options.append;
+} else if (args.options.render) {
+  var data,input,filename=args.targets.shift();
+  try {
+    data = JSON.parse(fs.readFileSync(args.options.render,'utf-8'));
+  } catch(ex) {
+    console.error('Bad Data JSON');
+    process.exit(2);
+  }
+  try {
+    input = fs.readFileSync(filename, 'utf-8');
+  } catch(ex) {
+    console.error('Bad Template File');
+    process.exit(2);
+  }
+  try {
+    if (input.substr(0,'(function'.length) === '(function') {
+      input = eval(input);
+    } else {
+      args.options.file=filename;
+      input = pistachio.compile(pistachio.parse(input, args.options));
+      input = eval(input);
+    }
+  } catch(ex) {
+    console.error(ex.message);
+    if (debug) console.error(ex.stack);
+    process.exit(2);
+  }
+  result = input(data);
 } else {
   try {
     result = args.options.prepend+pistachio.compile(parseFile(args.targets.shift(), args.options))+args.options.append;
