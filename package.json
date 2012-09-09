@@ -2,10 +2,10 @@
   "name":"pistachio",
   "version":"0.1.0",
   "description":"Amazingly fast and flexible JS Templating",
-  "main":"./lib/pistachio.js",
+  "main":"./index.js",
   "author":{ "name":"Philipp Dunkel", "email":"phidelta@phideltacity.net" },
   "bin":{
-    "pistachio":"./lib/compile.js"
+    "pistachio":"./compile.js"
   },
   "dependencies":{
     "argv":"*"
