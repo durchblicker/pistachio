@@ -2,61 +2,22 @@
 ** © 2012 by YOUSURE Tarifvergleich GmbH. Licensed under MIT License.
 */
 
-module.exports = express;
+module.exports = exports = express;
+module.exports.cache = {};
 
-var resolveFile = require('path').resolve;
-var dirName = require('path').dirname;
-var readFile = require('fs').readFile;
 var pistachio = require('./node.js');
 
-var cache={};
-function express(path, options, callback) {
-  if (options.data) {
-    var data = options.data;
-    if (cache[options.template]) {
-      try {
-        data = cache[options.template](data);
-      } catch(err) {
-        return callback(err);
-      }
-      return callback(undefined, data);
-    }
-    return pistachio.file(options.template, function(err, tpl) {
-      if (err) return callback(err);
-      if (options.cache) cache[options.template]=tpl;
-      try {
-        data = cache[options.template](data);
-      } catch(err) {
-        return callback(err);
-      }
-      return callback(undefined, data);
-    });
+function express(path, data, callback) {
+  data = data || {};
+  data.settings = data.settings || {};
+  data.settings.cachedPistachio = false;
+  if (exports.cache[path]) {
+    data.settings.cachedPistachio = true;
+    return pistachio.render(exports.cache[path], data, callback);
   }
-  readFile(path, 'utf-8', function(err, data) {
+  return pistachio.file(path, function(err, tpl) {
     if (err) return callback(err);
-    try {
-      data = JSON.parse(data);
-      options.template  = data.pistachio || options.template;
-    } catch(err) {
-      return callback(err);
-    }
-    if (cache[options.template]) {
-      try {
-        data = cache[options.template](data);
-      } catch(err) {
-        return callback(err);
-      }
-      return callback(undefined, data);
-    }
-    pistachio.file(options.template, function(err, tpl) {
-      if (err) return callback(err);
-      if (options.cache) cache[options.template]=tpl;
-      try {
-        data = cache[options.template](data);
-      } catch(err) {
-        return callback(err);
-      }
-      return callback(undefined, data);
-    });
+    if (data.settings.cachePistachios) exports.cache[path]=tpl;
+    pistachio.render(tpl, data, callback);
   });
 }

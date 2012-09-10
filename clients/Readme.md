@@ -75,7 +75,7 @@ alternatively you can do:
     fs.readFile(filename, function(err, text) {
       pistachio(eval(text), function(err, html) {});
     }, 'utf-8');
-    
+
 or one more option:
 
     var pistachio = require('pistachio');
@@ -89,17 +89,20 @@ So basically whatever your style it is supported.
 
 If you want to be less raw than the generic NodeJS stuff and you want to use pistachio with the [Express Framework](http://expressjs.com), pistachio provides a renderer middleware.
 
-    app.engine('pistachio', require('pistachio').__express);
-    ...
-    var options = {
-      root:"/path/to/the/document-root",        // the path passed to render() as a first argument will be resolved against this,
-      template:'/path/to/teplate-file',         // this can be a filename, a string with the template or the function expression
-      defaultTemplate:'/path/to /template-file' // if you want the file to provide a template in *data.pistachio* and only use the template from options when none is specified.
-    };
-    res.render('test.pistachio', options, function(err, html) {
-      ... 
+    var express = require('express');
+    var app = express();
+
+    app.engine('pistachio', require('../../index.js').express);
+    app.set('view engine', 'pistachio');
+    app.set('views', __dirname);
+    app.set('cachePistachios', true);
+
+    app.get('/', function(req, res, next) {
+      res.render('sample', { 'title':'Pistachio Express', 'product':'Pistachio', 'engine':'Express with dynamic data' }, function(err, html) {
+        if (err) return next(err);
+        res.send(html);
+      });
     });
 
-In addition to passing the template via options, its filename can be specified in *data.pistachio* of the JSON data object at *path*.
+    app.listen(8000);
 
-Whatever way you pass in the template, when the callback is called, *options.template* will be the evaluated template function. This way you can create an options object at the beginning that contains the filename of the template and resuse it for all *res.render* calls that should use that template and the template remains there cached.
