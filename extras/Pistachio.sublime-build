@@ -1,4 +1,4 @@
 {
-  "cmd": ["pistachio", "--out=$file_path/$file_base_name.compiled.$file_extension", "$file"],
+  "cmd": ["pistachio", "--out=$file_path/$file_base_name.pistachio", "$file"],
   "selector":"text.html.basic"
 }
