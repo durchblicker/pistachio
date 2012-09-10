@@ -8,7 +8,7 @@ It was inspired by my personal search for a good templating system. I did find a
   * [hogan.js](https://github.com/twitter/hogan.js) which compiles mustache templates, but requires the hogan runtime to be present for rendering.
   * [doT](https://github.com/olado/doT) which compiles to pure JavaScript, but uses its own funky templating syntax.
 
-So I decided to combine the two and inject some JavaScript steroids. I had to be nuts to create yet another templating system. Since my favorite nut is the pistachio (and it sounds like pissed staches), that became the name of the project.
+So I decided to combine the two and inject some JavaScript steroids. I had to be nuts to create yet another templating system. Since my favorite nut is the pistachio (and it sounds like "pissed at staches" ;) ), that became the name of the project.
 
 ## Short Commings of Mustache
 
@@ -18,7 +18,7 @@ This was also recognized by the mustache guys, which is why they came up with la
 
 I think lamdas are a way "to shoot yourself in the foot with a crossbow". What I mean is that lamdas are powerful enough to hurt youself with, yet not powerful enough to fight a modern battle with.
 
-So wanted needed more power. While lamdas are fully supported, I wanted to use actual JavaScript expressions in my templates. This is usedful for example in Date and Number formatting, filtering lists, and much more.
+So wanted/needed more power. While lamdas are fully supported, I wanted to use actual JavaScript expressions in my templates. This is useful for example in Date and Number formatting, filtering lists, and much more.
 
 ## So what is pistachio?
 
@@ -30,7 +30,7 @@ The first thing the compiler does is create a parse tree, that is basically a li
 
 The syntax is basically mustache. There are a few additions, that make pistachio much more powerful. These are all triggered by beginning a mustache tag with {{#!;
 
-The only syntax element that is currently not supported is ***{{=**XX XX**=}}*** to change the delimiters. However this is planned for the near future.
+The only syntax element that is currently not supported is *** {{=XX XX=}} *** to change the delimiters. However this is planned for the near future.
 
 ### Utility Functions
 
@@ -76,7 +76,7 @@ The mustache section {{^name}}content{{/name}} wil map to {{#!name !this['name']
 
 ### Rendering Rules
 
-The rendering rules are pretty much the same as for regulat mustache sections.
+The rendering rules are pretty much the same as for regular mustache sections.
 
 **The section is not rendered if:**
 
@@ -105,7 +105,7 @@ The package comes with a compiler. You can invoke it with:
 The options available are:
   * *--out=&lt;filename>* The template is written to this file instead of *stdout*
   * *--amd* wrap the result in an amd module *define* (Not available with *--common*)
-  * *--common* make the result a valid CommonJS module (`module.exports=(function() {})`) (Not available with *--amd*)
+  * *--common* make the result a valid CommonJS module (`module.exports=(function() {…})`) (Not available with *--amd*)
   * *--prepend=&lt;string>* prepend the result with the string (Not available with *--amd* or *--common*)
   * *--append=&lt;string>* append the string to the end of the result (Not available with *--amd* or *--common*)
   * *--jquery* output the jQuery Stub instead of compiling (No template-file needed!)
