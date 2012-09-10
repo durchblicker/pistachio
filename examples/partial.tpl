@@ -2,5 +2,5 @@
   <head>
     <title>{{company}}</title>
   </head>
-  {{>simple.tpl}}
+{{>simple.tpl}}
 </html>

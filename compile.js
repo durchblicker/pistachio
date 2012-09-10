@@ -90,6 +90,7 @@ if (args.options.jquery) {
     console.error('Error Compiling: '+args.file);
     console.error(ex.message);
     if (debug) console.error(ex.stack);
+    process.exit(3);
   }
 }
 

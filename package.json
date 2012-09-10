@@ -11,7 +11,7 @@
     "argv":"*"
   },
   "scripts":{
-    "test":"node ./compile.js examples/partial.tpl"
+    "test":"node ./compile.js --render=examples/simple.json examples/partial.tpl"
   },
   "repository":{
     "type":"git",
