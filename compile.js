@@ -4,7 +4,7 @@
 ** © 2012 by YOUSURE Tarifvergleich GmbH. Licensed under MIT License
 */
 
-var debug = false;
+var debug = true;
 
 var argv=require( 'argv' );
 var fs=require('fs');
