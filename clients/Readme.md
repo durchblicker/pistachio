@@ -85,7 +85,7 @@ or one more option:
 
     var pistachio = require('pistachio');
     fs.readFile(filename, function(err, text) {
-      pistachio.text(text, function(err, template) {
+      pistachio.loadText(text, function(err, template) {
         // Cache Template Here (for example)
         pistachio.render(template, data, function(err, result) {
           …
