@@ -41,13 +41,13 @@ Of course you can also render the jQuery plugin as an AMD or CommonJS module. Al
 Once the plugin is included you can use it via:
 
     $pistachio(template-url, data).done(function(html) {
-      ...
+      …
     });
     $pistachio(template-text, data).done(function(html) {
-      ...
+      …
     });
     $pistachio(template-function, data)..done(function(html) {
-      ...
+      …
     });
 
 if you simply want a template object that you want to reuse, then don't pass in *data*
@@ -67,20 +67,30 @@ To use the templates in Node.JS you can always use the generic ways. However you
 
     var pistachio = require('pistachio');
 
-    pistachio(filename, function(err, html) {});
+    pistachio(filename, data, function(err, result) {
+      …
+    });
 
 alternatively you can do:
 
     var pistachio = require('pistachio');
-    fs.readFile(filename, function(err, text) {
-      pistachio(eval(text), function(err, html) {});
-    }, 'utf-8');
+    pistachio.loadFile(filename, function(err, template) {
+      // Cache Template Here (for example)
+      pistachio.render(template, data, function(err, result) {
+        …
+      });
+    });
 
 or one more option:
 
     var pistachio = require('pistachio');
     fs.readFile(filename, function(err, text) {
-      pistachio.text(text, function(err, html) {});
+      pistachio.text(text, function(err, template) {
+        // Cache Template Here (for example)
+        pistachio.render(template, data, function(err, result) {
+          …
+        });
+      });
     }, 'utf-8');
 
 So basically whatever your style it is supported.
