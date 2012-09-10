@@ -10,8 +10,12 @@
   "dependencies":{
     "argv":"*"
   },
+  "scripts":{
+    "test":"node ./compile.js examples/partial.tpl"
+  },
   "repository":{
     "type":"git",
     "url":"https://github.com/phidelta/pistachio.git"
-  }
+  },
+  "preferGlobal": true
 }
