@@ -43,6 +43,8 @@ There are two utility function available in expressions (and section expressions
 
 The current data piece is alwas available as *this*. All previous section data is available under name of that section.
 
+If you are rendering a section with a list-item (i.e.: the section's data is an Array), then you also have the variable *_index_* which contains the 0 based count of the current item in the list.
+
 ### Expressions
 
   {{#! expression }}
