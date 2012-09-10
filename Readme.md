@@ -1,6 +1,14 @@
 # Pistachio
 
-Pistachio is a pure JavaScript templating system whose compiled templates can be used both on the server as well an in the browser. It was inspired by my personal search for a good templating system. I did find an abundance yet nothing that suited me. The closest to my liking was mustache, but it has some short commings, that made it unsuitable for me. I had to be nuts to create yet another templating system. Since my favorite nut is the pistachio, that became the name of the project.
+Pistachio is a pure JavaScript compiler that compiles [mustache](http://mustache.github.com/) templates to pure JavaScript functions. These JavaScript functions are self contained and can be run in any JavaScript environment to render a template (i.e.: in Browsers as well).
+
+It was inspired by my personal search for a good templating system. I did find an abundance yet nothing that suited me. The closest to my liking was mustache, but it has some short commings that made it insufficient for me.
+
+  The other ones I liked were
+  * [hogan.js](https://github.com/twitter/hogan.js) which compiles mustache templates, but requires the hogan runtime to be present for rendering.
+  * [doT](https://github.com/olado/doT) which compiles to pure JavaScript, but uses its own funky templating syntax.
+
+So I decided to combine the two and inject some JavaScript steroids. I had to be nuts to create yet another templating system. Since my favorite nut is the pistachio (and it sounds like pissed staches), that became the name of the project.
 
 ## Short Commings of Mustache
 
@@ -10,15 +18,17 @@ This was also recognized by the mustache guys, which is why they came up with la
 
 I think lamdas are a way "to shoot yourself in the foot with a crossbow". What I mean is that lamdas are powerful enough to hurt youself with, yet not powerful enough to fight a modern battle with.
 
+So wanted needed more power. While lamdas are fully supported, I wanted to use actual JavaScript expressions in my templates. This is usedful for example in Date and Number formatting, filtering lists, and much more.
+
 ## So what is pistachio?
 
-Basically you can think of pistachio as mustache on JavaScript steroids. Pistachio is very similar to mustache in terms of syntax. In fact most any mustache template can be used as is with pistachio. Unless it contains lambdas you are good to go. Pistachio compiles that template into a plain JavaScript function that you can call in pretty much any JavaScript engine. So you can use the compiled template with NodeJS or in the browser. Heck you could even use the same template in both the browser and in your node server.
+Basically you can think of pistachio as mustache on JavaScript steroids. Pistachio is very similar to mustache in terms of syntax. In fact most any mustache template can be used as is with pistachio. Unless it contains tag switching you are good to go. Pistachio compiles that template into a plain JavaScript function that you can call in pretty much any JavaScript engine. So you can use the compiled template with NodeJS or in the browser. Heck you could even use the same template in both the browser and in your node server.
 
-The first thing the compiler does is replace all mustache tags with their pistachio equivalents before parsing. Then a parse tree is built that is basically a list of JavaScript expressions. That is then compiled into a single JavaScript function. This function is already pretty minified. If you want to reduce it even more and also remove anything that is not used in your template, then just run it through the Google Closure Compiler.
+The first thing the compiler does is create a parse tree, that is basically a list of JavaScript expressions. That is then compiled into a single JavaScript function. This function is already pretty minified. If you want to reduce it even more and also remove anything that is not used in your template, then just run it through the Google Closure Compiler. (As a matter of fact you *SHOULD* do that!)
 
 ## Syntax
 
-The syntax is basically mustache. There are a few additions, that make pistachio much more powerful. These are all triggered by beginning a mustache tag with {{@ or {{{@.
+The syntax is basically mustache. There are a few additions, that make pistachio much more powerful. These are all triggered by beginning a mustache tag with {{#!;
 
 The only syntax element that is currently not supported is ***{{=**XX XX**=}}*** to change the delimiters. However this is planned for the near future.
 
@@ -31,26 +41,21 @@ There are two utility function available in expressions (and section expressions
 
 ### Variables
 
-There are several variables available in expressions (and section expressions).
-
- * *this* : the current piece of data to be rendered
- * *root* : the root data object (the one you called the main function on)
- * *parent* : the this of your parent section
- * *memo* : initally an empty object. It is a scratch-pad that all expressions can use to pass information between expressions
+The current data piece is alwas available as *this*. All previous section data is available under name of that section.
 
 ### Expressions
 
-  {{@ expression }}
+  {{#! expression }}
 
 Expressions are just that. They are any valid JavaScript expression. The data that is supposed to be renderd is available in the *this* variable.
 
-The mustache variable {{name}} will translate to {{@ esc(this['name']) }} while {{{name}}} will map to {{@ this['name'] }}
+The mustache variable {{name}} will translate to {{#! esc(this['name']) }} while {{{name}}} will map to {{#! this['name'] }}
 
 **Example**
 
 *Template*
 
-    Hallo I am your {{@ this.name }} version {{@ this.version }} rendering engine!
+    Hallo I am your {{#! this.name }} version {{#! this.version }} rendering engine!
 
 *Data*
 
@@ -60,54 +65,36 @@ As you can see, this is where your data is. The use of javascript expressions is
 
 ### Sections
 
-  {{{@ name expression }}}section-content{{{@ name }}}
+  {{#!name expression }}section-content{{/name}}}
 
-Sections are pieces of the template that can contain expressions and other sections. Your entire template is nothing more than a section. A section has a name. While a name is mandatory it is not used for anything other than to make sure that the opening and closing tags of the section match.
+Sections are pieces of the template that can contain expressions and other sections. Your entire template is nothing more than a section named *root*. A section has a name which is mandatory and used to provide a variable by that name to all elements in that section.
 
-The expression that follows the name is taken as the *this* for all expressions and sections within this section.
+The expression that follows the name is taken as the *this* for all expressions and sections within this section and assigned to a variable with the name of the section.
 
-The mustache section {{#name}}content{{/name}} wil map to {{{@ name this['name'] }}}content{{{@ name }}}
-The mustache section {{^name}}content{{/name}} wil map to {{{@ name !this['name'] }}}content{{{@ name }}}
-
-If lambdas are enabled for that section name by either specifying --lamda=name or --lambdas, the mapping is slightly different:
-
-    {{#name}}content{{/name}}
-
-maps to
-
-    {{@ ("function" !== typeof this[name])?"":(this[name](content)) }}{{{@name ("function" === typeof this[name])?"":this[name] }}}content{{{@name}}}
-
-which is basically 2 sections. So the content of that section is present twice.
+The mustache section {{#name}}content{{/name}} wil basically map to {{#!name this['name'] }}content{{/name}}
+The mustache section {{^name}}content{{/name}} wil map to {{#!name !this['name'] }}content{{/name }}
 
 ### Rendering Rules
 
-The rendering rules are pretty much the same as for mustache. There may be minor differences (functions vs. lambdas) so here is the complete rule-set.
+The rendering rules are pretty much the same as for regulat mustache sections.
 
-**The template is not rendered if:**
+**The section is not rendered if:**
 
   * The expression yields *null*
   * The expression yields *undefined*
   * The expression yields *boolean false*
   * The expressuin yields an *array* with length 0
 
-**The template is rendered *once* if:**
+**The section is rendered *once* if:**
 
   * The expressions yields a *number*
   * The expression yields a *string* (even if it yields an empty string)
   * The expression yields a non *null* *object* (Except if the object is an Array)
   * The expression yields a *boolean true* except that the *this* and *parent* variables are not changed
 
-**The template is rendered *more than once* if:**
+**The section is rendered *more than once* if:**
 
   * The expression yields an *array* with a length > 0 (once for each element)
-
-If the expression yields a *function* it is called with the arguments *this*, *root*, *parent*. Then the above rules are plied to the result of the function.
-
-### Mustache Lambdas
-
-There is limited mustache lambda support. Since the template is fully compiled before ever being rendered, lamdas have to be declared at compiletime. If you pass the compiler the name of your lambda with the --lamda option, that mustache section will be treated as a mustache lambda if the data is actually a function. If the data is not a function the section is handled normally. If you pass the compiler the ---lambdas flag, then all sections have lambdas enabled.
-
-Lambdas make the generated templates significantly larger. So unless you really need them, you should probably stay away from them. After all, the expressions available in pistachio are much more powerful anyhow.
 
 ## Compiler
 
@@ -116,9 +103,6 @@ The package comes with a compiler. You can invoke it with:
     pistachio [<options>] <template-file>
 
 The options available are:
-
-  * *--lambda=&lt;name>* These mustache sections can be lambdas (this option can be passed multiple times).
-  * *--lambdas* All mustache sections can be lambdas (This will significantly increase the size of the resulting template)
   * *--out=&lt;filename>* The template is written to this file instead of *stdout*
   * *--amd* wrap the result in an amd module *define* (Not available with *--common*)
   * *--common* make the result a valid CommonJS module (`module.exports=(function() {})`) (Not available with *--amd*)
