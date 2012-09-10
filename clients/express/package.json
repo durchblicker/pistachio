@@ -1,0 +1,8 @@
+{
+  "name":"pistachio-express-sample",
+  "version":"0.0.0",
+  "main":"server.js",
+  "dependencies":{
+    "express":"*"
+  }
+}

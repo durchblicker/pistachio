@@ -7,6 +7,7 @@ module.exports.text = loadText;
 module.exports.file = loadFile;
 
 var readFile = require('fs').readFile;
+var pistachio = require('../lib/pistachio.js');
 
 function render(fn, data, callback) {
   if ('string' === typeof fn) return loadFile(fn, function(err, tpl) {
@@ -31,6 +32,13 @@ function loadFile(file, callback) {
   });
 }
 function loadText(text, callback) {
+  if ('(function' !== text.substr(0,'(function'.length)) {
+    try {
+      text = pistachio(text);
+    } catch(err) {
+      return callback(err);
+    }
+  }
   process.nextTick(function() {
     var err, val;
     try {

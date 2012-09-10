@@ -4,4 +4,4 @@
 
 module.exports = require('./lib/pistachio.js');
 module.exports.render = require('./clients/node.js');
-module.exports.__express = require('./clients/express.js');
+module.exports.__express = module.exports.express = require('./clients/express.js');
