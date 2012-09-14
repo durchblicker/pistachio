@@ -9,6 +9,7 @@ module.exports.render = render;
 
 var readFile = require('fs').readFile;
 var pistachio = require('../lib/pistachio.js');
+var run = require('vm').runInThisContext;
 
 function render(fn, data, callback) {
   if ('string' === typeof fn) {
@@ -32,15 +33,20 @@ function render(fn, data, callback) {
 function loadFile(file, callback) {
   readFile(file, 'utf-8', function(err, text) {
     if (err) return callback(err);
-    return loadText(text, callback);
+    return loadText(text, file, callback);
   });
 }
 
-function loadText(text, callback) {
+function loadText(text, filename, callback) {
+  if ('function' === typeof filename) {
+    callback = filename;
+    filename = 'template.pistachio';
+  }
+  filename = filename || 'template.pistachio';
   process.nextTick(function() {
     var err, val;
     try {
-      val = eval(text);
+      val = run(text, filename);
       if ('function' !== typeof val) throw new Error('Invalid Template');
     } catch(ex) {
       err = ex;
