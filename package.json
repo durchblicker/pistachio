@@ -8,7 +8,8 @@
     "pistachio":"./compile.js"
   },
   "dependencies":{
-    "argv":"*"
+    "argv":"*",
+    "async":"*"
   },
   "scripts":{
     "test":"node ./compile.js --render=examples/simple.json examples/partial.tpl"

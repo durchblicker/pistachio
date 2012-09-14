@@ -18,7 +18,8 @@ var args = argv.info('Pistachio Template Compiler').version('0.1.0').option([
   { name:'prepend', type:'string', description:'prepend the result with the string (Not available with --amd or --common)' },
   { name:'append', type:'string', description:'append the string to the end of the result (Not available with --amd or --common)' },
   { name:'jquery', type:'boolean', description:'output the jQuery client script instead of compiling a template.'},
-  { name:'render', type:'path', description:'output the rendered template with data in this file'}
+  { name:'render', type:'path', description:'output the rendered template with data in this file'},
+  { name:'root', type:'path', description:'the base path that is used for absoulte partials (default: /)' }
 ]).run();
 
 if (args.options.jquery && args.targets.length) {
@@ -102,6 +103,7 @@ if (args.options.out) {
 
 function parseFile(file, opts) {
   var tpl, base = opts.file;
+  if (file[0]==='/') file = path.resolve(opts.root || '/', file.substr(1));
   file = base ? path.resolve(path.dirname(base), file) : path.resolve(file);
   try {
     tpl = fs.readFileSync(file, 'utf-8');
