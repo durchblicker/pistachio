@@ -12,13 +12,6 @@ var pistachio = require('../lib/pistachio.js');
 var run = require('vm').runInThisContext;
 
 function render(fn, data, callback) {
-  if ('string' === typeof fn) {
-    loadFile(fn, function(err, tpl) {
-      if (err) return callback(err);
-      return render(tpl, data, callback);
-    });
-    return;
-  }
   process.nextTick(function() {
     var err, val;
     try {
@@ -43,6 +36,7 @@ function loadText(text, filename, callback) {
     filename = 'template.pistachio';
   }
   filename = filename || 'template.pistachio';
+  if ('function' !== typeof callback) return run(text, filename);
   process.nextTick(function() {
     var err, val;
     try {
