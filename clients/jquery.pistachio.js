@@ -2,13 +2,13 @@
 ** © 2012 by YOUSURE Tarifvergleich GmbH. Licensed under MIT License
 */
 
-$['pistachio']=setup($);
-function setup($) {
+(function($) {
   var cached={};
   main.render=render;
   main.cache=cache;
   main.load=load;
-  return main;
+  $['pistachio']=main;
+  $['fn']['pistachio'] = renderInto;
 
   function main(tpl, data, callback) {
     var ctx={};
@@ -56,6 +56,21 @@ function setup($) {
       }
       ctx.complete(undefined, data);
     },0);
+    return hdl;
+  }
+  function renderInto(tpl, data, callback) {
+    var ctx={ nodes:this };
+    var hdl=handle(ctx, callback);
+
+    main(tpl, data).done(function(html) {
+      ctx.node.each(function(node) {
+        node = $(node);
+        if (tpl.empty) node.empty();
+        node.append(html);
+      });
+      ctx.complete(undefined, html, ctx.node);
+    }).fail(ctx.complete);
+    
     return hdl;
   }
 
@@ -114,15 +129,15 @@ function setup($) {
       return obj;
     };
     obj.always(callback);
-    ctx.complete = function(err, val) {
+    ctx.complete = function(err, val, aux) {
       var idx;
       if (err) {
         for (idx=0; idx<ctx.fail.length; idx+=1) ctx.fail[idx](err);
       } else {
-        for (idx=0; idx<ctx.done.length; idx+=1) ctx.done[idx](val);
+        for (idx=0; idx<ctx.done.length; idx+=1) ctx.done[idx](val, aux);
       }
-      for (idx=0; idx<ctx.always.length; idx+=1) ctx.always[idx](err, val);
+      for (idx=0; idx<ctx.always.length; idx+=1) ctx.always[idx](err, val, aux);
     };
     return obj;
   }
-}
+}(jQuery));
