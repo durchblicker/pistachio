@@ -13,8 +13,14 @@ function express(path, data, callback) {
   var cache = data.settings ? data.settings.cachePistachios : false;
   if (exports.cache[path]) return pistachio.render(exports.cache[path], data, callback);
   pistachio.file(path, function(err, tpl) {
-    if (err) return callback(err);
+    if (err) {
+      //console.error(err.stack);
+      return callback(err);
+    }
     if (cache) exports.cache[path]=tpl;
-    pistachio.render(tpl, data, callback);
+    pistachio.render(tpl, data, function(err, html) {
+      if (err) console.error(err.stack);
+      callback(err, html);
+    });
   });
 }

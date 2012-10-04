@@ -82,7 +82,8 @@ function setup($) {
         txt=eval(txt);
         if ('function' !== typeof txt) throw(new Error('bad template'));
       } catch(err) {
-        return ctx.comlete(err);
+        err.code=txt;
+        return ctx.complete(err);
       }
       ctx.complete(undefined, txt);
     });
