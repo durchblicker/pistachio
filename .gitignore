@@ -4,3 +4,4 @@ lib/closure-compiler.jar
 *.sublime-workspace
 *.pistachio
 *.compiled.*
+pistachio
