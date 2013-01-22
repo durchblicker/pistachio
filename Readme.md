@@ -18,7 +18,7 @@ This was also recognized by the mustache guys, which is why they came up with la
 
 I think lamdas are a way "to shoot yourself in the foot with a crossbow". What I mean is that lamdas are powerful enough to hurt youself with, yet not powerful enough to fight a modern battle with.
 
-So wanted/needed more power. While lamdas are fully supported, I wanted to use actual JavaScript expressions in my templates. This is useful for example in Date and Number formatting, filtering lists, and much more.
+So wanted/needed more power. So lambdas are not supported; I wanted to use actual JavaScript expressions in my templates. This is useful for example in Date and Number formatting, filtering lists, and much more.
 
 ## So what is pistachio?
 
@@ -38,6 +38,7 @@ There are two utility function available in expressions (and section expressions
 
  * *esc(text)* - converts the argument to a string and does HTML escaping
  * *each(array, function)* - is a cross browser capable version of *Array.prototype.map*
+ * *_isarray_(item)* - is a cross browser capable version of *Array.isArray*
 
 ### Variables
 
