@@ -1,6 +1,6 @@
 {
   "name":"pistachio",
-  "version":"0.1.8",
+  "version":"0.1.9",
   "description":"Amazingly fast and flexible JS Templating",
   "main":"./index.js",
   "author":{ "name":"Philipp Dunkel", "email":"phidelta@phideltacity.net" },
@@ -9,7 +9,8 @@
   },
   "dependencies":{
     "argv":"*",
-    "async":"*"
+    "async":"*",
+    "uglify-js":"*"
   },
   "scripts":{
     "test":"node ./compile.js --render=examples/simple.json examples/partial.tpl"
