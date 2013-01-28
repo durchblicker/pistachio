@@ -21,10 +21,10 @@ if (!args.targets.length) {
 
 pistachio.parse(path.resolve(args.targets[0]), function(err, template) {
   if (err) return console.error(err.message);
-  template = template.code();
+  template = template.code({ beautify:false });
   var stream = args.options.out ? fs.createWriteStream(path.resolve(args.options.out)) : process.stdout;
   if (args.options.render) {
-    pistachio.compile(template, function(err, template) {
+    pistachio.compile(template ,function(err, template) {
       if (err) return console.error(err.message);
       fs.readFile(path.resolve(args.options.render), 'utf-8', function(err, data) {
         if (err) return console.error(err.message);
