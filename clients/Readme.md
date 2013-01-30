@@ -6,30 +6,6 @@
 
 The compiled templates are plain JavaScript function expressions. You can load and use them in multiple ways. Either you copy & paste them into your code directly, or you ask the compiler to create an AMD or CommonJS module for you. Alternatively you can load them from a file and eval the contents.
 
-**Copy & Paste Example:**
-
-    var template=(function... // Copy & Paste
-
-**AMD Example:**
-
-    requirejs('mytemplate',function(template {
-      var html = template(data);
-    }));
-
-**CommonJS Example:**
-
-    var template = require('mytemplate');
-    var html = template(data);
-
-**Eval Example**
-
-    <script type="text/pistachio" id="mytemplate">(function...</script>
-
-    <script type="text/javascript">
-      var template = eval(document.getElementById('#mytemplate').text);
-      var html = template(data);
-    </script>
-
 ## jQuery
 
 In addition to the generic methods above there is a jQuery Plugin. You can ask the compiler to produce the file for you by calling:
@@ -66,34 +42,10 @@ of course this also works with a template text or or a template function and not
 To use the templates in Node.JS you can always use the generic ways. However you can also do:
 
     var pistachio = require('pistachio');
-
-    pistachio(filename, data, function(err, result) {
+     render(name, data, options, callback) {
+    pistachio(<filename || uncompiled-template || compiled-template>, data[, options], function(err, result) {
       …
     });
-
-alternatively you can do:
-
-    var pistachio = require('pistachio');
-    pistachio.loadFile(filename, function(err, template) {
-      // Cache Template Here (for example)
-      pistachio.render(template, data, function(err, result) {
-        …
-      });
-    });
-
-or one more option:
-
-    var pistachio = require('pistachio');
-    fs.readFile(filename, function(err, text) {
-      pistachio.loadText(text, function(err, template) {
-        // Cache Template Here (for example)
-        pistachio.render(template, data, function(err, result) {
-          …
-        });
-      });
-    }, 'utf-8');
-
-So basically whatever your style it is supported.
 
 ## Express
 
@@ -105,7 +57,7 @@ If you want to be less raw than the generic NodeJS stuff and you want to use pis
     app.engine('pistachio', require('../../index.js').express);
     app.set('view engine', 'pistachio');
     app.set('views', __dirname);
-    app.set('cachePistachios', true);
+    require('../../index.js').express.options.cache = true;
 
     app.get('/', function(req, res, next) {
       res.render('sample', { 'title':'Pistachio Express', 'product':'Pistachio', 'engine':'Express with dynamic data' }, function(err, html) {

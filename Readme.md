@@ -34,11 +34,16 @@ The only syntax element that is currently not supported is *** {{=XX XX=}} *** t
 
 ### Utility Functions
 
-There are two utility function available in expressions (and section expressions).
+There are several utility function available in expressions (and section expressions).
 
- * *esc(text)* - converts the argument to a string and does HTML escaping
- * *each(array, function)* - is a cross browser capable version of *Array.prototype.map*
- * *_isarray_(item)* - is a cross browser capable version of *Array.isArray*
+ * *$escape(text)* - converts the argument to a string and does HTML escaping
+ * *$each(array, function)* - is a cross browser capable version of *Array.prototype.map*
+ * *$filter(array, function)* - is a cross browser capable version of *Array.prototype.filter*
+ * *$keys(object)* - is a cross browser capable version of *Object.keys*
+ * *$isarray(item)* - is a cross browser capable version of *Array.isArray*
+ * *$array(item)* - is a cross browser capable version of $isarray(item)?item:[item]
+ * *$join(array, char)* - is a cross browser capable version of $array(array).join(char||'')
+ * *$strip(text)* - is a cross browser capable version of stripping whitespace between tags and converting multiple spaces into a single space
 
 ### Variables
 
@@ -52,7 +57,7 @@ If you are rendering a section with a list-item (i.e.: the section's data is an 
 
 Expressions are just that. They are any valid JavaScript expression. The data that is supposed to be renderd is available in the *this* variable.
 
-The mustache variable {{name}} will translate to {{#! esc(this['name']) }} while {{{name}}} will map to {{#! this['name'] }}
+The mustache variable {{name}} will translate to {{#! $escape(this['name']) }} while {{{name}}} will map to {{#! this['name'] }}
 
 **Example**
 
@@ -107,14 +112,9 @@ The package comes with a compiler. You can invoke it with:
 
 The options available are:
   * *--out=&lt;filename>* The template is written to this file instead of *stdout*
-  * *--amd* wrap the result in an amd module *define* (Not available with *--common*)
-  * *--common* make the result a valid CommonJS module (`module.exports=(function() {…})`) (Not available with *--amd*)
-  * *--prepend=&lt;string>* prepend the result with the string (Not available with *--amd* or *--common*)
-  * *--append=&lt;string>* append the string to the end of the result (Not available with *--amd* or *--common*)
-  * *--jquery* output the jQuery Stub instead of compiling (No template-file needed!)
   * *--render=data-file* use the template-file to render the *data-file* which needs to be JSON. (template may be compiled or uncompiled)
-
-> **Tip:** Run the compiled template through the Google Closure Compiler to get a smaller file-size as well as speed improvements.
+  * *--strip-space* remove multiple spaces from content by converting them to a single space
+  * *--html* remove spaces between &gt and &lt; in addition to --strip
 
 ## Using the Templates
 
