@@ -34,14 +34,14 @@ pistachio.parse(path.resolve(args.targets[0]), options, function(err, template) 
       if (err) return console.error('Error(data): '+err.message);
       try {
         data = JSON.parse(data);
-        stream.write(template.template({ beautify:false }).call(data, data));
+        stream.write(template.template(options).call(data, data));
         if (stream !== process.stdout) stream.end();
       } catch(ex) {
         return console.error('Error(render): '+ex.message);
       }
     });
   } else {
-    stream.write(template.code({ beautify:false }));
+    stream.write(template.code(options));
     if (stream !== process.stdout) stream.end();
   }
 });
