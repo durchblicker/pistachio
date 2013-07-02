@@ -1,6 +1,6 @@
 {
   "name":"pistachio",
-  "version":"0.2.9",
+  "version":"0.2.10",
   "description":"Amazingly fast and flexible JS Templating",
   "main":"./index.js",
   "author":{ "name":"Philipp Dunkel", "email":"phidelta@phideltacity.net" },
