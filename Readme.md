@@ -82,6 +82,30 @@ The expression that follows the name is taken as the *this* for all expressions 
 The mustache section {{#name}}content{{/name}} wil basically map to {{#!name this['name'] }}content{{/name}}
 The mustache section {{^name}}content{{/name}} wil map to {{#!name !this['name'] }}content{{/name }}
 
+### Partials
+
+Partials are the includes of templating. The filename is relative to the current template file.
+
+  {{>filename}}
+
+### Globs
+
+Globs are Partials on steroids. You can use a glob to include multiple files
+
+  {{#>glob}}
+
+### Deltas
+
+Deltas are like *stored procedures*. You give a section a name and it is then available for you to call on any expression. This also allows for recursion.
+
+To define a Delta:
+
+  {{##name}}content{{#/name}}
+
+To call a Delta:
+
+  {{##!name expression}}
+
 ### Rendering Rules
 
 The rendering rules are pretty much the same as for regular mustache sections.
