@@ -1,23 +1,27 @@
 {
-  "name":"pistachio",
-  "version":"0.2.11",
-  "description":"Amazingly fast and flexible JS Templating",
-  "main":"./index.js",
-  "author":{ "name":"Philipp Dunkel", "email":"phidelta@phideltacity.net" },
-  "bin":{
-    "pistachio":"./compile.js"
+  "name": "pistachio",
+  "version": "0.2.12",
+  "description": "Amazingly fast and flexible JS Templating",
+  "main": "./index.js",
+  "author": {
+    "name": "Philipp Dunkel",
+    "email": "phidelta@phideltacity.net"
   },
-  "dependencies":{
-    "argv":"*",
-    "async":"*",
-    "uglify-js":"*"
+  "bin": {
+    "pistachio": "./compile.js"
   },
-  "scripts":{
-    "test":"node ./compile.js --render=examples/simple.json examples/partial.tpl"
+  "dependencies": {
+    "argv": "*",
+    "async": "*",
+    "uglify-js": "*",
+    "glob": ">3.2.0"
   },
-  "repository":{
-    "type":"git",
-    "url":"https://github.com/phidelta/pistachio.git"
+  "scripts": {
+    "test": "node ./compile.js --render=examples/simple.json examples/partial.tpl"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/phidelta/pistachio.git"
   },
   "preferGlobal": true
 }

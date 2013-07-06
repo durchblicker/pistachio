@@ -1,3 +1,4 @@
+{{#>**/*.part}}
 {{##test}}
 <li>
   <a href="#">{{title}}</a>
