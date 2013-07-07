@@ -1,6 +1,6 @@
 {
   "name": "pistachio",
-  "version": "0.2.12",
+  "version": "0.2.13",
   "description": "Amazingly fast and flexible JS Templating",
   "main": "./index.js",
   "author": {
@@ -11,10 +11,10 @@
     "pistachio": "./compile.js"
   },
   "dependencies": {
-    "argv": "*",
-    "async": "*",
+    "commander": "*",
+    "pea": "*",
     "uglify-js": "*",
-    "glob": ">3.2.0"
+    "glob": "*"
   },
   "scripts": {
     "test": "node ./compile.js --render=examples/simple.json examples/partial.tpl"

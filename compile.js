@@ -4,56 +4,70 @@
 ** © 2012 by YOUSURE Tarifvergleich GmbH. Licensed under MIT License
 */
 
-var argv = require('argv');
-var fs = require('fs');
-var path = require('path');
-var pistachio = require('./index.js');
+var Path = require('path');
+var Fs = require('fs');
+var Pea = require('pea');
+var Package = require('./package.json');
+var Program = require('commander');
+var Pistachio = require(Package.main);
 
-var args = argv.info('Pistachio Template Compiler').version('0.1.0').option([{
-  name: 'out',
-  short: 'o',
-  type: 'path',
-  description: 'The template is written to this file instead of STDOUT'
-}, {
-  name: 'render',
-  type: 'path',
-  description: 'output the rendered template with data in this file'
-}, {
-  name: 'strip-space',
-  type: 'boolean',
-  description: 'Strip-Space the Template (i.e.: reduce multiple consecutive whitespaces to a single space'
-}, {
-  name: 'html',
-  type: 'boolean',
-  description: 'Strip Spaces between > and < (Which is OK in HTML because it would be ignored anyways.'
-}]).run();
+Program.version(Package.version);
+Program.description(Package.description);
+Program.option('-o, --out <file>', 'send output to file', Path.resolve);
+Program.option('--strip-space', 'reduce multiple consecutive whitespaces to a single space');
+Program.option('--html', 'strip spaces between > and < (Which is OK in HTML because it would be ignored anyways.)');
+Program.option('-r, --render <file>', 'compile and then render using <file> as data-json', Path.resolve);
+Program.command('*').action(function(template){
+  var options = {
+    stripSpace:!!Program.stripSpace,
+    stripTagSpace:!!Program.html
+  };
+  Pea(Pistachio.compile, template, options).next(Pea(function(callback) {
+    var template = this.previousValue, json;
+    if (Program.render) {
+      var json = Pea(Fs.readFile, Program.render, 'utf-8');
+      var parse = Pea(parsejson);
+      var load = Pea(Pistachio.javascript, template, '<anonymous>');
+      var render = Pea(function(callback) {
+        try {
+          template = template(json);
+        } catch(err) {
+          return callback(err);
+        }
+        callback();
+      });
+      var write =Pea(function save(fn) {
+        if (Program.out) {
+          Pea(Fs.writeFile, Program.out, template).then(callback);
+        } else {
+          process.stdout.write(template);
+          callback();
+        }
+      });
+      json.next(parse).next(load).next(Pea(settpl)).next(render).next(write).failure(callback);
 
-if(!args.targets.length) {
-  argv.help();
-  process.exit();
-}
-
-var options = {
-  stripSpace: (args.options['strip-space'] || args.options.html) ? true : false,
-  stripTagSpace: args.options.html ? true : false
-};
-pistachio.parse(path.resolve(args.targets[0]), options, function(err, template) {
-  if(err) return console.error('Error(parse): ' + err.message);
-
-  var stream = args.options.out ? fs.createWriteStream(path.resolve(args.options.out)) : process.stdout;
-  if(args.options.render) {
-    fs.readFile(path.resolve(args.options.render), 'utf-8', function(err, data) {
-      if(err) return console.error('Error(data): ' + err.message);
-      try {
-        data = JSON.parse(data);
-        stream.write(template.template(options).call(data, data));
-        if(stream !== process.stdout) stream.end();
-      } catch(ex) {
-        return console.error('Error(render): ' + ex.message);
+      function parsejson(callback) {
+        try {
+          json = JSON.parse(this.previousValue);
+        } catch(err) {
+          return callback(err);
+        }
+        callback();
       }
-    });
-  } else {
-    stream.write(template.code(options));
-    if(stream !== process.stdout) stream.end();
-  }
+      function settpl(callback) {
+        template = this.previousValue;
+        callback()
+      }
+    } else {
+      if (Program.out) {
+        Pea(Fs.writeFile, Program.out, template).then(callback);
+      } else {
+        process.stdout.write(template);
+        callback();
+      }
+    }
+  })).error(function(err) {
+    console.error('ERROR: ', err.message);
+  });
 });
+Program.parse(process.argv);
