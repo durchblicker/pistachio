@@ -16,6 +16,9 @@
     "pea": "*",
     "uglify-js": "*"
   },
+  "optionalDependencies":{
+    "js-beautify":"*"
+  },
   "scripts": {
     "test": "node ./compile.js --render=examples/simple.json examples/partial.tpl"
   },
