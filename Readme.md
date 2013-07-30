@@ -1,4 +1,6 @@
-# Pistachio [![Build Status](https://secure.travis-ci.org/phidelta/pistachio.png)](http://travis-ci.org/#!/phidelta/pistachio)
+# Pistachio [![NPM](https://nodei.co/npm/pistachio.png)](https://nodei.co/npm/pistachio/)
+
+[![Build Status](https://secure.travis-ci.org/phidelta/pistachio.png)](http://travis-ci.org/#!/phidelta/pistachio)
 
 Pistachio is a pure JavaScript compiler that compiles [mustache](http://mustache.github.com/) templates to pure JavaScript functions. These JavaScript functions are self contained and can be run in any JavaScript environment to render a template (i.e.: in Browsers as well).
 
@@ -9,6 +11,8 @@ It was inspired by my personal search for a good templating system. I did find a
   * [doT](https://github.com/olado/doT) which compiles to pure JavaScript, but uses its own funky templating syntax.
 
 So I decided to combine the two and inject some JavaScript steroids. I had to be nuts to create yet another templating system. Since my favorite nut is the pistachio (and it sounds like "pissed at staches" ;) ), that became the name of the project.
+
+[![NPM](https://nodei.co/npm/pistachio.png)](https://nodei.co/npm/pistachio/)
 
 ## Short Commings of Mustache
 
