@@ -26,7 +26,11 @@ So wanted/needed more power. So lambdas are not supported; I wanted to use actua
 
 Basically you can think of pistachio as mustache on JavaScript steroids. Pistachio is very similar to mustache in terms of syntax. In fact most any mustache template can be used as is with pistachio. Unless it contains tag switching you are good to go. Pistachio compiles that template into a plain JavaScript function that you can call in pretty much any JavaScript engine. So you can use the compiled template with NodeJS or in the browser. Heck you could even use the same template in both the browser and in your node server.
 
-The first thing the compiler does is create a parse tree, that is basically a list of JavaScript expressions. That is then compiled into a single JavaScript function. This function is already pretty minified. If you want to reduce it even more and also remove anything that is not used in your template, then just run it through the Google Closure Compiler. (As a matter of fact you *SHOULD* do that!)
+The first thing the compiler does is create a parse tree, that is basically a list of JavaScript expressions. That is then compiled into a single JavaScript function. This function is already pretty minimal, but it then passed through UglifyJS to minify it even further.
+
+## So is this going to be around for a while?
+
+Well, be have based our entire [website](https://durchblicker.at) on this templating module, and since we want to stay in business, and depend on our site as a consumer comparison site, you can bet that we will be maintaining this.
 
 ## Syntax
 
