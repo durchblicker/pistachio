@@ -12,8 +12,6 @@ It was inspired by my personal search for a good templating system. I did find a
 
 So I decided to combine the two and inject some JavaScript steroids. I had to be nuts to create yet another templating system. Since my favorite nut is the pistachio (and it sounds like "pissed at staches" ;) ), that became the name of the project.
 
-[![NPM](https://nodei.co/npm/pistachio.png)](https://nodei.co/npm/pistachio/)
-
 ## Short Commings of Mustache
 
 Mustache aims to be a logic-less templating system. Which is great in concept, since you really should separate your logic from your interface. While it is great in concept, some logic is often necessary, if only to decide which interface elements to display how.
