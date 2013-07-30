@@ -44,7 +44,7 @@ Program.command('*').action(function(template){
           callback();
         }
       });
-      json.next(parse).next(load).next(Pea(settpl)).next(render).next(write).failure(callback);
+      json.next(parse).next(load).next(Pea(settpl)).next(render).next(write).error(callback);
 
       function parsejson(callback) {
         try {
