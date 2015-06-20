@@ -1,6 +1,6 @@
 # Pistachio [![NPM](https://nodei.co/npm/pistachio.png)](https://nodei.co/npm/pistachio/)
 
-[![Build Status](https://secure.travis-ci.org/phidelta/pistachio.png)](http://travis-ci.org/#!/phidelta/pistachio)
+[![Build Status](https://secure.travis-ci.org/pipobscure/pistachio.png)](http://travis-ci.org/#!/pipobscure/pistachio)
 
 Pistachio is a pure JavaScript compiler that compiles [mustache](http://mustache.github.com/) templates to pure JavaScript functions. These JavaScript functions are self contained and can be run in any JavaScript environment to render a template (i.e.: in Browsers as well).
 
