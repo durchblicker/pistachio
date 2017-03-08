@@ -1,6 +1,6 @@
 {
   "name": "pistachio",
-  "version": "0.2.14",
+  "version": "0.2.15",
   "description": "Amazingly fast and flexible JS Templating",
   "main": "./index.js",
   "author": {
@@ -14,7 +14,7 @@
     "commander": "*",
     "glob": "*",
     "pea": "*",
-    "uglify-js": "*"
+    "uglify-js": "2.4.15"
   },
   "optionalDependencies":{
     "js-beautify":"*"
